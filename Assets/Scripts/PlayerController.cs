@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody m_rb;
+    public float speed = 10.0F;
+    public float max_speed = 12.0F;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +16,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+    private void FixedUpdate()
+    {
         float movement = Input.GetAxis("Horizontal");
-        m_rb.AddForce(new Vector3(movement, 0.0F, 0.0F));
+        m_rb.AddForce(new Vector3(movement * speed, 0.0F, 0.0F));
+        m_rb.velocity = new Vector3(
+            Mathf.Clamp(m_rb.velocity.x, -max_speed, max_speed),
+            m_rb.velocity.y, m_rb.velocity.z);
     }
 }
